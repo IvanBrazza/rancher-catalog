@@ -1,7 +1,7 @@
 name: Splunk Indexer Cluster (Ephemeral)
-description: Deploy a Splunk indexer cluster that doesn't use persistent volumes. This stack allows you to scale up and down the number of nodes in the cluster at will. All data will be lost when the container is removed!
+description: |
+    Deploy a Splunk indexer cluster that doesn't use persistent volumes. This stack allows you to scale up and down the number of nodes in the cluster at will. All data will be lost when the container is removed!
 version: 0.1
 category: Splunk
 maintainer: Ivan Brazza
-license: N/A
 projectURL: http://docs.splunk.com/Documentation/Splunk/6.5.3/Indexer/Clusterdeploymentoverview
