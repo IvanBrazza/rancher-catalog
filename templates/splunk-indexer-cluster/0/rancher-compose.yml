@@ -11,6 +11,12 @@ catalog:
       description: "The Splunk License can be found here: https://www.splunk.com/en_us/legal/splunk-software-license-agreement.html"
       type: "boolean"
       required: true
+    - variable: splunk_master_http_port
+      label: "Master Node Splunk Web Port"
+      description: "Choose a port for the Master Node's web GUI to be exposed on"
+      type: "int"
+      required: true
+      default: 8009
     - variable: splunk_cluster_label
       label: "Splunk Cluster Label"
       description: "Choose a label for your indexer cluster"
