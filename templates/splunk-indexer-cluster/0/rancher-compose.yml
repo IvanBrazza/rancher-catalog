@@ -4,6 +4,8 @@ catalog:
   name: Splunk Indexer Cluster (Ephemeral)
   description: Deploy a Splunk indexer cluster that doesn't use persistent volumes. This stack allows you to scale up and down the number of nodes in the cluster at will. All data will be lost when the container is removed!
   version: 0.1
+  minimum_rancher_version: v1.0.1
+  maximum_rancher_version: v1.6.0
   questions:
     - variable: splunk_accept_license
       label: Do you accept the Splunk License?
