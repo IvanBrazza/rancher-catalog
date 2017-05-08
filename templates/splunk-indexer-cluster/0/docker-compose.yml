@@ -1,0 +1,38 @@
+version: '2'
+services:
+  cluster-master:
+    image: ivanbrazza/splunk
+    environment:
+      SPLUNK_CLUSTER_LABEL: ${splunk_cluster_label}
+      SPLUNK_NODE_TYPE: master_node
+      SPLUNK_REPLICATION_FACTOR: ${splunk_rep_factor}
+      SPLUNK_SEARCH_FACTOR: ${splunk_search_factor}
+      SPLUNK_SECRET: ${splunk_secret}
+      SPLUNK_START_ARGS: --answer-yes
+      SPLUNK_ACCEPT_LICENSE: ${splunk_accept_license}
+    stdin_open: true
+    tty: true
+    ports:
+      - 8009:8000/tcp
+    labels:
+      io.rancher.container.pull_image: always
+      io.rancher.container.hostname_override: container_name
+  indexer:
+    image: ivanbrazza/splunk
+    environment:
+      SPLUNK_CLUSTER_LABEL: ${splunk_cluster_label}
+      SPLUNK_MASTER_URI: cluster-master:8089
+      SPLUNK_NODE_TYPE: indexer_cluster_peer
+      SPLUNK_REPLICATION_FACTOR: ${splunk_rep_factor}
+      SPLUNK_REPLICATION_PORT: '8090'
+      SPLUNK_SEARCH_FACTOR: ${splunk_search_factor}
+      SPLUNK_SECRET: ${splunk_secret}
+      SPLUNK_START_ARGS: --answer-yes
+      SPLUNK_ACCEPT_LICENSE: ${splunk_accept_license}
+    stdin_open: true
+    tty: true
+    links:
+    - cluster-master:cluster-master
+    labels:
+      io.rancher.container.pull_image: always
+      io.rancher.container.hostname_override: container_name

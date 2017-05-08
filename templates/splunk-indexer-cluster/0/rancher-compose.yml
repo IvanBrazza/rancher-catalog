@@ -1,0 +1,47 @@
+version: '2'
+
+catalog:
+  name: Splunk Indexer Cluster (Ephemeral)
+  description: Deploy a Splunk indexer cluster that doesn't use persistent volumes. This stack allows you to scale up and down the number of nodes in the cluster at will. All data will be lost when the container is removed!
+  version: 0.1
+  questions:
+    - variable: splunk_accept_license
+      label: Do you accept the Splunk License?
+      description: The Splunk License can be found here: https://www.splunk.com/en_us/legal/splunk-software-license-agreement.html
+      type: boolean
+      required: true
+    - variable: splunk_cluster_label
+      label: Splunk Cluster Label
+      description: Choose a label for your indexer cluster
+      type: string
+    - variable: splunk_rep_factor
+      label: Splunk Replication Factor
+      description: The replication factor for the cluster, see http://docs.splunk.com/Documentation/Splunk/6.5.3/Indexer/Basicclusterarchitecture#Replication_factor
+      type: int
+      default: 3
+      required: true
+    - variable: splunk_search_factor
+      label: Splunk Search Factor
+      description: The search factor for the cluster, see http://docs.splunk.com/Documentation/Splunk/6.5.3/Indexer/Basicclusterarchitecture#Search_factor
+      type: int
+      default: 2
+      required: true
+    - variable: splunk_secret
+      label: Splunk Secret (pass4SymmKey)
+      description: This is the key that authenticates communication between the master and the peers and search heads. The key must be the same across all cluster nodes. The value that you set here must be the same that you subsequently set on the peers and search heads as well.
+      type: password
+      required: true
+    - variable: splunk_idx_nodes
+      label: Splunk Indexer Nodes
+      description: Number of nodes in the cluster
+      type: int
+      default: 3
+      required: true
+
+services:
+  indexer:
+    scale: ${splunk_idx_nodes}
+    start_on_create: true
+  cluster-master:
+    scale: 1
+    start_on_create: true
