@@ -22,7 +22,7 @@ services:
       SPLUNK_REPLICATION_PORT: 8090
       SPLUNK_SECRET: ${splunk_secret}
       SPLUNK_DEPLOYER_URL: shc-deployer:8089
-      SPLUNK_MASTER_URI: ${splunk_master_node_uri}
+      SPLUNK_MASTER_SERVICE: ${splunk_master_node_service}
       SPLUNK_START_ARGS: --answer-yes
       SPLUNK_ACCEPT_LICENSE: ${splunk_accept_license}
     stdin_open: true
@@ -40,7 +40,7 @@ services:
       SPLUNK_REPLICATION_PORT: 8090
       SPLUNK_SECRET: ${splunk_secret}
       SPLUNK_DEPLOYER_URL: shc-deployer:8089
-      SPLUNK_MASTER_URI: ${splunk_master_node_uri}
+      SPLUNK_MASTER_SERVICE: ${splunk_master_node_service}
       SPLUNK_BOOTSTRAP_CAPTAIN: "true"
       SPLUNK_SHCLUSTER_SERVER_LIST: rancher:${rancher_stack_name}:${splunk_shc_nodes}
       SPLUNK_START_ARGS: --answer-yes

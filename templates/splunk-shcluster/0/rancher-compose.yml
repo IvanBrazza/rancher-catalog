@@ -43,10 +43,10 @@ catalog:
       type: "int"
       default: 2
       required: true
-    - variable: splunk_master_node_uri
-      label: "Splunk Master Node URI"
-      description: "Optional. Enter a Splunk Master Node URI (in the format <hostname/fqdn>:<port>) to connect the SH cluster to an indexer cluster."
-      type: "string"
+    - variable: splunk_master_node_service
+      label: "Splunk Master Node"
+      description: "Optional. Choose a service which is an indexer cluster master node to connect the SH cluster to an indexer cluster."
+      type: "service"
 
 services:
   shc-deployer:
