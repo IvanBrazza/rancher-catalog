@@ -38,12 +38,12 @@ catalog:
       default: 3
       required: true
     - variable: splunk_idxsearch_factor
-      label: "Splunk Search Factor"
+      label: "Splunk Indexer Cluster Search Factor"
       description: "The search factor for the indexer cluster, see http://docs.splunk.com/Documentation/Splunk/6.5.3/Indexer/Basicclusterarchitecture#Search_factor"
       type: "int"
       default: 2
       required: true
-    - variable: splunk_rep_factor
+    - variable: splunk_shrep_factor
       label: "Splunk Search Head Cluster Replication Factor"
       description: "The replication factor for the search head cluster, see http://docs.splunk.com/Documentation/Splunk/6.5.3/DistSearch/SHCdeploymentoverview#1._Identify_your_requirements"
       type: "int"
