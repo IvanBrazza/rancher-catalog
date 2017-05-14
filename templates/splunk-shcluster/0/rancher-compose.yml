@@ -65,6 +65,13 @@ services:
         selector: splunk=shc-node
         source_port: ${splunk_web_port}
         target_port: 8000
+      stickiness_policy:
+        cookie: sticky
+        domain: ''
+        indirect: false
+        mode: insert
+        nocache: false
+        postonly: false
     health_check:
       response_timeout: 2000
       healthy_threshold: 2
