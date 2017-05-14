@@ -42,6 +42,7 @@ services:
       SPLUNK_DEPLOYER_URL: shc-deployer:8089
       SPLUNK_MASTER_URI: ${splunk_master_node_uri}
       SPLUNK_BOOTSTRAP_CAPTAIN: "true"
+      SPLUNK_SHCLUSTER_SERVER_LIST: rancher:${rancher_stack_name}:${splunk_shc_nodes}
       SPLUNK_START_ARGS: --answer-yes
       SPLUNK_ACCEPT_LICENSE: ${splunk_accept_license}
     stdin_open: true
