@@ -1,0 +1,17 @@
+version: '2'
+
+catalog:
+  name: "Splunk Indexer Cluster (Ephemeral)"
+  description: "Deploy a Splunk indexer cluster that doesn't use persistent volumes. This stack allows you to scale up and down the number of nodes in the cluster at will. All data will be lost when the container is removed!"
+  version: "0.1"
+  minimum_rancher_version: v1.6.0
+  questions:
+    - variable: splunk_master_node
+      label: "Splunk Maste Node"
+      description: "Choose the cluster master if you want"
+      type: "service"
+
+services:
+  test:
+    scale: 1
+    start_on_create: true

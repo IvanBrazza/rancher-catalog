@@ -1,0 +1,7 @@
+name: Test Template
+description: |
+    Test template
+version: 0.1
+category: Splunk
+maintainer: Ivan Brazza
+projectURL: http://docs.splunk.com/Documentation/Splunk/6.5.3/Indexer/Clusterdeploymentoverview
