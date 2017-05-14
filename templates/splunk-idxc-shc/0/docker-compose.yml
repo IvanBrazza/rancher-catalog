@@ -1,0 +1,95 @@
+version: '2'
+services:
+  cluster-master:
+    image: ivanbrazza/splunk
+    environment:
+      SPLUNK_CLUSTER_LABEL: ${splunk_idxcluster_label}
+      SPLUNK_NODE_TYPE: master_node
+      SPLUNK_REPLICATION_FACTOR: ${splunk_idxrep_factor}
+      SPLUNK_SEARCH_FACTOR: ${splunk_idxsearch_factor}
+      SPLUNK_SECRET: ${splunk_secret}
+      SPLUNK_START_ARGS: --answer-yes
+      SPLUNK_ACCEPT_LICENSE: ${splunk_accept_license}
+    stdin_open: true
+    tty: true
+    ports:
+      - ${splunk_master_http_port}:8000/tcp
+    labels:
+      io.rancher.container.pull_image: always
+      io.rancher.container.hostname_override: container_name
+  indexer:
+    image: ivanbrazza/splunk
+    environment:
+      SPLUNK_MASTER_URI: cluster-master:8089
+      SPLUNK_NODE_TYPE: indexer_cluster_peer
+      SPLUNK_REPLICATION_PORT: '8090'
+      SPLUNK_SECRET: ${splunk_secret}
+      SPLUNK_START_ARGS: --answer-yes
+      SPLUNK_ACCEPT_LICENSE: ${splunk_accept_license}
+    stdin_open: true
+    tty: true
+    links:
+    - cluster-master:cluster-master
+    labels:
+      io.rancher.container.pull_image: always
+      io.rancher.container.hostname_override: container_name
+
+  shc-deployer:
+    image: ivanbrazza/splunk
+    environment:
+      SPLUNK_CLUSTER_LABEL: ${splunk_shcluster_label}
+      SPLUNK_NODE_TYPE: search_head_cluster_deployer
+      SPLUNK_SECRET: ${splunk_secret}
+      SPLUNK_START_ARGS: --answer-yes
+      SPLUNK_ACCEPT_LICENSE: ${splunk_accept_license}
+    stdin_open: true
+    tty: true
+    labels:
+      io.rancher.container.pull_image: always
+      io.rancher.container.hostname_override: container_name
+  shc-node:
+    image: ivanbrazza/splunk
+    environment:
+      SPLUNK_CLUSTER_LABEL: ${splunk_shcluster_label}
+      SPLUNK_NODE_TYPE: search_head_cluster_peer
+      SPLUNK_REPLICATION_FACTOR: ${splunk_shrep_factor}
+      SPLUNK_REPLICATION_PORT: 8090
+      SPLUNK_SECRET: ${splunk_secret}
+      SPLUNK_DEPLOYER_URL: shc-deployer:8089
+      SPLUNK_MASTER_URI: cluster-master:8089
+      SPLUNK_START_ARGS: --answer-yes
+      SPLUNK_ACCEPT_LICENSE: ${splunk_accept_license}
+    stdin_open: true
+    tty: true
+    labels:
+      io.rancher.container.pull_image: always
+      io.rancher.container.hostname_override: container_name
+      splunk: shc-node
+  shc-captain:
+    image: ivanbrazza/splunk
+    environment:
+      SPLUNK_CLUSTER_LABEL: ${splunk_shcluster_label}
+      SPLUNK_NODE_TYPE: search_head_cluster_peer
+      SPLUNK_REPLICATION_FACTOR: ${splunk_shrep_factor}
+      SPLUNK_REPLICATION_PORT: 8090
+      SPLUNK_SECRET: ${splunk_secret}
+      SPLUNK_DEPLOYER_URL: shc-deployer:8089
+      SPLUNK_MASTER_URI: cluster-master:8089
+      SPLUNK_BOOTSTRAP_CAPTAIN: "true"
+      SPLUNK_SHCLUSTER_SERVER_LIST: rancher:${rancher_stack_name}:${splunk_shc_nodes}
+      SPLUNK_MGMT_URI: shc-captain:8089
+      SPLUNK_START_ARGS: --answer-yes
+      SPLUNK_ACCEPT_LICENSE: ${splunk_accept_license}
+    stdin_open: true
+    tty: true
+    labels:
+      io.rancher.container.pull_image: always
+      io.rancher.container.hostname_override: container_name
+      splunk: shc-node
+  splunk-shc:
+    image: rancher/lb-service-haproxy:v0.7.1
+    ports:
+    - ${splunk_web_port}:${splunk_web_port}/tcp
+    labels:
+      io.rancher.container.agent.role: environmentAdmin
+      io.rancher.container.create_agent: 'true'

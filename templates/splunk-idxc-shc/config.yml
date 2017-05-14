@@ -1,0 +1,7 @@
+name: Splunk Indexer Cluster + Search Head Cluster (Ephemeral)
+description: |
+    Deploy a Splunk indexer cluster and accompanying search head cluster that doesn't use persistent volumes. This stack allows you to scale up and down the number of nodes in the indexer cluster at will, but not the search heads. All data will be lost when the container is removed!
+version: 0.1
+category: Splunk
+maintainer: Ivan Brazza
+projectURL: http://docs.splunk.com/Documentation/Splunk/6.5.3/Indexer/Clusterdeploymentoverview

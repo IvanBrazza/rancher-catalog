@@ -1,0 +1,112 @@
+version: '2'
+
+catalog:
+  name: "Splunk Indexer Cluster + Search Head Cluster (Ephemeral)"
+  description: "Deploy a Splunk indexer cluster and accompanying search head cluster that doesn't use persistent volumes. This stack allows you to scale up and down the number of nodes in the indexer cluster at will, but not the search heads. All data will be lost when the container is removed!"
+  version: "0.1"
+  minimum_rancher_version: v1.6.0
+  questions:
+    - variable: splunk_accept_license
+      label: "Do you accept the Splunk License?"
+      description: "The Splunk License can be found here: https://www.splunk.com/en_us/legal/splunk-software-license-agreement.html"
+      type: "boolean"
+      required: true
+    - variable: splunk_master_http_port
+      label: "Master Node Splunk Web Port"
+      description: "Choose a port for the Master Node's web GUI to be exposed on"
+      type: "int"
+      required: true
+      default: 8009
+    - variable: splunk_web_port
+      label: "Splunk Web Port"
+      description: "Choose a port for the search head cluster's load balanced web GUI to be exposed on"
+      type: "int"
+      required: true
+      default: 8000
+    - variable: splunk_idxcluster_label
+      label: "Splunk Indexer Cluster Label"
+      description: "Choose a label for your indexer cluster"
+      type: "string"
+    - variable: splunk_shcluster_label
+      label: "Splunk Search Head Cluster Label"
+      description: "Choose a label for your search head cluster"
+      type: "string"
+    - variable: splunk_idxrep_factor
+      label: "Splunk Indexer Cluster Replication Factor"
+      description: "The replication factor for the indexer cluster, see http://docs.splunk.com/Documentation/Splunk/6.5.3/Indexer/Basicclusterarchitecture#Replication_factor"
+      type: "int"
+      default: 3
+      required: true
+    - variable: splunk_idxsearch_factor
+      label: "Splunk Search Factor"
+      description: "The search factor for the indexer cluster, see http://docs.splunk.com/Documentation/Splunk/6.5.3/Indexer/Basicclusterarchitecture#Search_factor"
+      type: "int"
+      default: 2
+      required: true
+    - variable: splunk_rep_factor
+      label: "Splunk Search Head Cluster Replication Factor"
+      description: "The replication factor for the search head cluster, see http://docs.splunk.com/Documentation/Splunk/6.5.3/DistSearch/SHCdeploymentoverview#1._Identify_your_requirements"
+      type: "int"
+      default: 2
+      required: true
+    - variable: splunk_secret
+      label: "Splunk Secret (pass4SymmKey)"
+      description: "This is the key that authenticates communication between the master and the peers and search heads. The key must be the same across all cluster nodes. The value that you set here must be the same that you subsequently set on the peers and search heads as well."
+      type: "password"
+      required: true
+    - variable: splunk_idx_nodes
+      label: "Splunk Indexer Nodes"
+      description: "Number of nodes in the indexer cluster"
+      type: "int"
+      default: 3
+      required: true
+    - variable: splunk_shc_nodes
+      label: "Splunk Search Head Nodes"
+      description: "Number of nodes in the cluster, excluding the captain which runs as a separate service. Should be a minimum of 2."
+      type: "int"
+      default: 2
+      required: true
+
+services:
+  indexer:
+    scale: ${splunk_idx_nodes}
+    start_on_create: true
+  cluster-master:
+    scale: 1
+    start_on_create: true
+  shc-deployer:
+    scale: 1
+    start_on_create: true
+  shc-node:
+    scale: ${splunk_shc_nodes}
+    start_on_create: true
+  shc-captain:
+    scale: 1
+    start_on_create: true
+  splunk-shc:
+    scale: 1
+    start_on_create: true
+    lb_config:
+      certs: []
+      port_rules:
+      - path: ''
+        priority: 1
+        protocol: http
+        selector: splunk=shc-node
+        source_port: ${splunk_web_port}
+        target_port: 8000
+      stickiness_policy:
+        cookie: sticky
+        domain: ''
+        indirect: false
+        mode: insert
+        nocache: false
+        postonly: false
+    health_check:
+      response_timeout: 2000
+      healthy_threshold: 2
+      port: 42
+      unhealthy_threshold: 3
+      initializing_timeout: 60000
+      interval: 2000
+      reinitializing_timeout: 60000
