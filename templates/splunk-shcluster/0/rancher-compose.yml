@@ -29,7 +29,7 @@ catalog:
       required: true
     - variable: splunk_secret
       label: "Splunk Secret (pass4SymmKey)"
-      description: "This is the key that authenticates communication between the master and the peers and search heads. The key must be the same across all cluster nodes. The value that you set here must be the same that you subsequently set on the peers and search heads as well."
+      description: "This is the key that authenticates communication between the all the nodes in the cluster. If this cluster is also being joined to an indexer cluster, this must be the same key as set on the master node."
       type: "password"
       required: true
     - variable: splunk_shc_nodes
