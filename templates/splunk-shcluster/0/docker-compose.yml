@@ -43,6 +43,7 @@ services:
       SPLUNK_MASTER_SERVICE: ${splunk_master_node_service}
       SPLUNK_BOOTSTRAP_CAPTAIN: "true"
       SPLUNK_SHCLUSTER_SERVER_LIST: rancher:${rancher_stack_name}:${splunk_shc_nodes}
+      SPLUNK_MGMT_URI: shc-captain:8089
       SPLUNK_START_ARGS: --answer-yes
       SPLUNK_ACCEPT_LICENSE: ${splunk_accept_license}
     stdin_open: true
