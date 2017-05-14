@@ -1,0 +1,7 @@
+name: Splunk Search Head Cluster (Ephemeral)
+description: |
+    Deploy a Splunk search head cluster that doesn't use persistent volumes. This stack currently does not support scaling up and down instances. All data will be lost when the container is removed!
+version: 0.1
+category: Splunk
+maintainer: Ivan Brazza
+projectURL: http://docs.splunk.com/Documentation/Splunk/6.5.3/DistSearch/AboutSHC

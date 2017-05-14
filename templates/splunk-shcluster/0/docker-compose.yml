@@ -1,0 +1,61 @@
+version: '2'
+services:
+  shc-deployer:
+    image: ivanbrazza/splunk
+    environment:
+      SPLUNK_CLUSTER_LABEL: ${splunk_cluster_label}
+      SPLUNK_NODE_TYPE: search_head_cluster_deployer
+      SPLUNK_SECRET: ${splunk_secret}
+      SPLUNK_START_ARGS: --answer-yes
+      SPLUNK_ACCEPT_LICENSE: ${splunk_accept_license}
+    stdin_open: true
+    tty: true
+    labels:
+      io.rancher.container.pull_image: always
+      io.rancher.container.hostname_override: container_name
+  shc-node:
+    image: ivanbrazza/splunk
+    environment:
+      SPLUNK_CLUSTER_LABEL: ${splunk_cluster_label}
+      SPLUNK_NODE_TYPE: search_head_cluster_peer
+      SPLUNK_REPLICATION_FACTOR: ${splunk_rep_factor}
+      SPLUNK_REPLICATION_PORT: 8090
+      SPLUNK_SECRET: ${splunk_secret}
+      SPLUNK_DEPLOYER_URL: shc-deployer:8089
+      SPLUNK_MASTER_URI: ${splunk_master_node_uri}
+      SPLUNK_START_ARGS: --answer-yes
+      SPLUNK_ACCEPT_LICENSE: ${splunk_accept_license}
+    stdin_open: true
+    tty: true
+    labels:
+      io.rancher.container.pull_image: always
+      io.rancher.container.hostname_override: container_name
+      splunk: shc-node
+  shc-captain:
+    image: ivanbrazza/splunk
+    environment:
+      SPLUNK_CLUSTER_LABEL: ${splunk_cluster_label}
+      SPLUNK_NODE_TYPE: search_head_cluster_peer
+      SPLUNK_REPLICATION_FACTOR: ${splunk_rep_factor}
+      SPLUNK_REPLICATION_PORT: 8090
+      SPLUNK_SECRET: ${splunk_secret}
+      SPLUNK_DEPLOYER_URL: shc-deployer:8089
+      SPLUNK_MASTER_URI: ${splunk_master_node_uri}
+      SPLUNK_BOOTSTRAP_CAPTAIN: "true"
+      SPLUNK_START_ARGS: --answer-yes
+      SPLUNK_ACCEPT_LICENSE: ${splunk_accept_license}
+    stdin_open: true
+    tty: true
+    links:
+    - cluster-master:cluster-master
+    labels:
+      io.rancher.container.pull_image: always
+      io.rancher.container.hostname_override: container_name
+      splunk: shc-node
+  splunk-shc:
+    image: rancher/lb-service-haproxy:v0.7.1
+    ports:
+    - ${splunk_web_port}:${splunk_web_port}/tcp
+    labels:
+      io.rancher.container.agent.role: environmentAdmin
+      io.rancher.container.create_agent: 'true'
