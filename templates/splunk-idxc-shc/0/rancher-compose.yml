@@ -6,6 +6,11 @@ catalog:
   version: "0.1"
   minimum_rancher_version: v1.6.0
   questions:
+    - variable: rancher_stack_name
+      label: "Stack Name"
+      description: "IMPORTANT: This must be set to the same name as the 'Name' field above, otherwise the cluster will not function. This is a workaround until Rancher implement magic variable names (https://github.com/rancher/rancher/issues/3393)."
+      type: "string"
+      required: true
     - variable: splunk_accept_license
       label: "Do you accept the Splunk License?"
       description: "The Splunk License can be found here: https://www.splunk.com/en_us/legal/splunk-software-license-agreement.html"
