@@ -89,7 +89,7 @@ services:
   splunk-shc:
     image: rancher/lb-service-haproxy:v0.7.1
     ports:
-    - "8000"
+    - ${splunk_web_port}:${splunk_web_port}/tcp
     labels:
       io.rancher.container.agent.role: environmentAdmin
       io.rancher.container.create_agent: 'true'
