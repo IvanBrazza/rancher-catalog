@@ -73,7 +73,7 @@ services:
     health_check:
       healthy_threshold: 2
       response_timeout: 2000
-      port: 51442
+      port: 8089
       unhealthy_threshold: 3
       initializing_timeout: 300000
       interval: 2000
@@ -85,7 +85,7 @@ services:
     health_check:
       healthy_threshold: 2
       response_timeout: 2000
-      port: 51442
+      port: 8089
       unhealthy_threshold: 3
       initializing_timeout: 300000
       interval: 2000
@@ -97,7 +97,7 @@ services:
     health_check:
       healthy_threshold: 2
       response_timeout: 2000
-      port: 51442
+      port: 8089
       unhealthy_threshold: 3
       initializing_timeout: 300000
       interval: 2000
@@ -109,7 +109,7 @@ services:
     health_check:
       healthy_threshold: 2
       response_timeout: 2000
-      port: 51442
+      port: 8089
       unhealthy_threshold: 3
       initializing_timeout: 300000
       interval: 2000
@@ -121,7 +121,7 @@ services:
     health_check:
       healthy_threshold: 2
       response_timeout: 2000
-      port: 51442
+      port: 8089
       unhealthy_threshold: 3
       initializing_timeout: 300000
       interval: 2000
