@@ -10,6 +10,7 @@ services:
       SPLUNK_SECRET: ${splunk_secret}
       SPLUNK_START_ARGS: --answer-yes
       SPLUNK_ACCEPT_LICENSE: ${splunk_accept_license}
+      SPLUNK_ENABLE_LISTEN: 51442
     stdin_open: true
     tty: true
     ports:
