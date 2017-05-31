@@ -75,10 +75,10 @@ services:
       response_timeout: 2000
       port: 51442
       unhealthy_threshold: 3
-      initializing_timeout: 120000
+      initializing_timeout: 300000
       interval: 2000
       strategy: recreate
-      reinitializing_timeout: 120000
+      reinitializing_timeout: 300000
   cluster-master:
     scale: 1
     start_on_create: true
@@ -87,10 +87,10 @@ services:
       response_timeout: 2000
       port: 51442
       unhealthy_threshold: 3
-      initializing_timeout: 60000
+      initializing_timeout: 300000
       interval: 2000
       strategy: recreate
-      reinitializing_timeout: 60000
+      reinitializing_timeout: 300000
   shc-deployer:
     scale: 1
     start_on_create: true
@@ -99,10 +99,10 @@ services:
       response_timeout: 2000
       port: 51442
       unhealthy_threshold: 3
-      initializing_timeout: 60000
+      initializing_timeout: 300000
       interval: 2000
       strategy: recreate
-      reinitializing_timeout: 60000
+      reinitializing_timeout: 300000
   shc-node:
     scale: ${splunk_shc_nodes}
     start_on_create: true
@@ -111,10 +111,10 @@ services:
       response_timeout: 2000
       port: 51442
       unhealthy_threshold: 3
-      initializing_timeout: 120000
+      initializing_timeout: 300000
       interval: 2000
       strategy: recreate
-      reinitializing_timeout: 120000
+      reinitializing_timeout: 300000
   shc-captain:
     scale: 1
     start_on_create: true
@@ -123,10 +123,10 @@ services:
       response_timeout: 2000
       port: 51442
       unhealthy_threshold: 3
-      initializing_timeout: 120000
+      initializing_timeout: 300000
       interval: 2000
       strategy: recreate
-      reinitializing_timeout: 120000
+      reinitializing_timeout: 300000
   splunk-shc:
     scale: 1
     start_on_create: true
