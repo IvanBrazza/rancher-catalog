@@ -13,7 +13,7 @@ services:
     stdin_open: true
     tty: true
     ports:
-      - ${splunk_master_http_port}:8000/tcp
+      - "8000"
     labels:
       io.rancher.container.pull_image: always
       io.rancher.container.hostname_override: container_name
@@ -89,7 +89,7 @@ services:
   splunk-shc:
     image: rancher/lb-service-haproxy:v0.7.1
     ports:
-    - ${splunk_web_port}:${splunk_web_port}/tcp
+    - "8000"
     labels:
       io.rancher.container.agent.role: environmentAdmin
       io.rancher.container.create_agent: 'true'
