@@ -77,7 +77,7 @@ services:
       unhealthy_threshold: 3
       initializing_timeout: 300000
       interval: 2000
-      strategy: recreate
+      strategy: none
       reinitializing_timeout: 300000
   cluster-master:
     scale: 1
@@ -89,7 +89,7 @@ services:
       unhealthy_threshold: 3
       initializing_timeout: 300000
       interval: 2000
-      strategy: recreate
+      strategy: none
       reinitializing_timeout: 300000
   shc-deployer:
     scale: 1
@@ -101,7 +101,7 @@ services:
       unhealthy_threshold: 3
       initializing_timeout: 300000
       interval: 2000
-      strategy: recreate
+      strategy: none
       reinitializing_timeout: 300000
   shc-node:
     scale: ${splunk_shc_nodes}
@@ -113,7 +113,7 @@ services:
       unhealthy_threshold: 3
       initializing_timeout: 300000
       interval: 2000
-      strategy: recreate
+      strategy: none
       reinitializing_timeout: 300000
   shc-captain:
     scale: 1
@@ -125,7 +125,7 @@ services:
       unhealthy_threshold: 3
       initializing_timeout: 300000
       interval: 2000
-      strategy: recreate
+      strategy: none
       reinitializing_timeout: 300000
   splunk-shc:
     scale: 1
