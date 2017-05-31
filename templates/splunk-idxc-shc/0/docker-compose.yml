@@ -69,6 +69,7 @@ services:
       io.rancher.container.pull_image: always
       io.rancher.container.hostname_override: container_name
       splunk: shc-node
+      rancher_stack: ${rancher_stack_name}
   shc-captain:
     image: ivanbrazza/splunk
     environment:
@@ -91,6 +92,7 @@ services:
       io.rancher.container.pull_image: always
       io.rancher.container.hostname_override: container_name
       splunk: shc-node
+      rancher_stack: ${rancher_stack_name}
   splunk-shc:
     image: rancher/lb-service-haproxy:v0.7.1
     ports:
